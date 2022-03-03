@@ -6,30 +6,38 @@ namespace Organizer.Controllers
 {
   public class AlbumController : Controller
   {
+    [HttpGet("/albums")]
+    public ActionResult Index()
+    {
+      List<Album> allAlbums = Album.GetAll();
+      return View(allAlbums);
+    }
 
-    // [HttpGet("/categories/{categoryId}/items/new")]
-    // public ActionResult New(int categoryId)
-    // {
-    //   Category category = Category.Find(categoryId);
-    //   return View(category);
-    // }
+    [HttpGet("/albums/new")]
+    public ActionResult New()
+    {
+      return View();
+    }
 
-    // [HttpPost("/items/delete")]
-    // public ActionResult DeleteAll()
-    // {
-    //   Item.ClearAll();
-    //   return View();
-    // }
+    [HttpPost("/albums")]
+    public ActionResult Create(string title, string artist)
+    {
+      Album myAlbum = new Album(title, artist);
+      return RedirectToAction("Index");
+    }
 
-    // [HttpGet("/categories/{categoryId}/items/{itemId}")]
-    // public ActionResult Show(int categoryId, int itemId)
-    // {
-    //   Item item = Item.Find(itemId);
-    //   Category category = Category.Find(categoryId);
-    //   Dictionary<string, object> model = new Dictionary<string, object>();
-    //   model.Add("item", item);
-    //   model.Add("category", category);
-    //   return View(model);
-    // }
+    [HttpPost("/albums/delete")]
+    public ActionResult DeleteAll()
+    {
+      Album.ClearAll();
+      return View();
+    }
+
+    [HttpGet("/albums/{id}")]
+    public ActionResult Show(int id)
+    {
+      Album foundAlbum = Album.Find(id);
+      return View(foundAlbum);
+    }
   }
 }

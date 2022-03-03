@@ -1,0 +1,13 @@
+@{
+  Layout = "_Layout";
+}
+<h3>Album Details: </h3>
+
+    <h4>Title: @Model.Title</h4>
+    <h4>Artist: @Model.Artist</h4>
+
+<form action="/albums/new" method="get">
+  <button class="btn btn-primary btn-lrg">Add an Album!</button>
+</form>
+<form action="/albums" method="get">
+  <button class="btn btn-primary btn-lrg">View your albums!</button>
