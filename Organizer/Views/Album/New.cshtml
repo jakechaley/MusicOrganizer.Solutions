@@ -1,11 +1,13 @@
 @{
   Layout = "_Layout";
 }
-<h3>Add a new album to your collection :)</h3>
-<form action="/albums" method="post">
-  <label for="title">Album Name:</label>
-  <input id="title" name="title" type="text">
-    <label for="artist">Album artist:</label>
-  <input id="artist" name="artist" type="text">
+@using Organizer.Models
+
+<h3>Add a new album to artist: @Model.Name</h3>
+<form action="/artists/@Model.Id/albums" method="post">
+  <input id="artist" name="artist" type="hidden" value="@Model.Name">
+  <label for="title">Album Title</label>
+  <input type="text" name="titles" id="title">
   <button type="submit">Submit</button>
 </form>
+<p><a href="/artists">Back to artists</a></p>

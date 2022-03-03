@@ -41,15 +41,15 @@ namespace Organizer.Controllers
 
     // This one creates new Albums within a given Category, not new Categories:
     [HttpPost("/artists/{artistId}/albums")]
-    public ActionResult Create(int artistId, string albumTitles, string artist)
+    public ActionResult Create(int artistId, string titles, string artist)
     {
       Dictionary<string, object> model = new Dictionary<string, object>();
       Artist foundArtist = Artist.Find(artistId);
-      Album newAlbum = new Album(albumTitles, artist);
+      Album newAlbum = new Album(titles, artist);
       foundArtist.AddAlbum(newAlbum);
       List<Album> artistAlbums = foundArtist.Albums;
       model.Add("albums", artistAlbums);
-      model.Add("artists", foundArtist);
+      model.Add("artist", foundArtist);
       return View("Show", model);
     }
 

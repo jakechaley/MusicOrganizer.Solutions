@@ -3,11 +3,9 @@
 }
 <h3>Album Details: </h3>
 
-    <h4>Title: @Model.Title</h4>
-    <h4>Artist: @Model.Artist</h4>
+    <h4>Title: @Model["album"].Title</h4>
+    <h4>Artist: @Model["artist"].Name</h4>
 
-<form action="/albums/new" method="get">
-  <button class="btn btn-primary btn-lrg">Add an Album!</button>
-</form>
-<form action="/albums" method="get">
-  <button class="btn btn-primary btn-lrg">View your albums!</button>
+    <a href='/artists/@Model["artist"].Id/albums/new'>Add another item</a>
+    <br>
+    <a href='/artists'>View all artists</a>
