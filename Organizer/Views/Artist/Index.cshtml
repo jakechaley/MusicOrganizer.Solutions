@@ -1,0 +1,27 @@
+@{
+  Layout = "_Layout";
+}
+@using Organizer.Models;
+
+<h3>Artists</h3>
+
+@if (@Model.Count == 0)
+{
+  <h3>No artists have been added yet! Go add your favorite</h3>
+} 
+
+@foreach (Artist element in Model)
+{
+  <h3><a href='/artists/@element.Id'>@element.Name</a></h3>
+}
+
+<form action="/artists/new" method="get">
+  <button class="btn btn-primary btn-lrg">Add an Artist!</button>
+</form>
+
+<form action="/artists/delete" method="post">
+  <button type="submit" name="button" class="btn btn-primary btn-lrg">Clear All Artists</button>
+</form>
+
+<p><a href='/'>Back home</a></p>
+

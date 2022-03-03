@@ -1,59 +1,63 @@
-// using System.Collections.Generic;
-// using System;
-// using Microsoft.AspNetCore.Mvc;
-// using Organizer.Models;
+using System.Collections.Generic;
+using System;
+using Microsoft.AspNetCore.Mvc;
+using Organizer.Models;
 
-// namespace Organizer.Controllers
-// {
-//   public class ArtistController : Controller
-//   {
+namespace Organizer.Controllers
+{
+  public class ArtistController : Controller
+  {
 
-//     // [HttpGet("/categories")]
-//     // public ActionResult Index()
-//     // {
-//     //   List<Category> allCategories = Category.GetAll();
-//     //   return View(allCategories);
-//     // }
+    [HttpGet("/artists")]
+    public ActionResult Index()
+    {
+      List<Artist> allArtists = Artist.GetAll();
+      return View(allArtists);
+    }
 
-//     // [HttpGet("/categories/new")]
-//     // public ActionResult New()
-//     // {
-//     //   return View();
-//     // }
+    [HttpGet("/artists/new")]
+    public ActionResult New()
+    {
+      return View();
+    }
 
-//     // [HttpPost("/categories")]
-//     // public ActionResult Create(string categoryName)
-//     // {
-//     //   Category newCategory = new Category(categoryName);
-//     //   return RedirectToAction("Index");
-//     // }
+    [HttpPost("/artists")]
+    public ActionResult Create(string artistName)
+    {
+      Artist newArtist = new Artist(artistName);
+      return RedirectToAction("Index");
+    }
 
-//     // [HttpGet("/categories/{id}")]
-//     // public ActionResult Show(int id)
-//     // {
-//     //   Dictionary<string, object> model = new Dictionary<string, object>();
-//     //   Category selectedCategory = Category.Find(id);
-//     //   List<Item> categoryItems = selectedCategory.Items;
-//     //   model.Add("category", selectedCategory);
-//     //   model.Add("items", categoryItems);
-//     //   return View(model);
-//     // }
+    [HttpGet("/artists/{id}")]
+    public ActionResult Show(int id)
+    {
+      Dictionary<string, object> model = new Dictionary<string, object>();
+      Artist selectedArtist = Artist.Find(id);
+      List<Album> artistAlbums = selectedArtist.Albums;
+      model.Add("artist", selectedArtist);
+      model.Add("albums", artistAlbums);
+      return View(model);
+    }
 
+    // This one creates new Albums within a given Category, not new Categories:
+    [HttpPost("/artists/{artistId}/albums")]
+    public ActionResult Create(int artistId, string albumTitles, string artist)
+    {
+      Dictionary<string, object> model = new Dictionary<string, object>();
+      Artist foundArtist = Artist.Find(artistId);
+      Album newAlbum = new Album(albumTitles, artist);
+      foundArtist.AddAlbum(newAlbum);
+      List<Album> artistAlbums = foundArtist.Albums;
+      model.Add("albums", artistAlbums);
+      model.Add("artists", foundArtist);
+      return View("Show", model);
+    }
 
-//     // // This one creates new Items within a given Category, not new Categories:
-
-//     // [HttpPost("/categories/{categoryId}/items")]
-//     // public ActionResult Create(int categoryId, string itemDescription)
-//     // {
-//     //   Dictionary<string, object> model = new Dictionary<string, object>();
-//     //   Category foundCategory = Category.Find(categoryId);
-//     //   Item newItem = new Item(itemDescription);
-//     //   foundCategory.AddItem(newItem);
-//     //   List<Item> categoryItems = foundCategory.Items;
-//     //   model.Add("items", categoryItems);
-//     //   model.Add("category", foundCategory);
-//     //   return View("Show", model);
-//     // }
-
-//   }
-// }
+    [HttpPost("artists/delete")]
+    public ActionResult DeleteAll()
+    {
+      Artist.ClearAll();
+      return RedirectToAction("Index");
+    }
+  }
+}

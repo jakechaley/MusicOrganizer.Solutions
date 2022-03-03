@@ -1,0 +1,18 @@
+@{
+  Layout = "_Layout";
+}
+@using Organizer.Models;
+
+<h3>Here are all the albums from @Model.Name: </h3>
+
+  @foreach (Album element in Model.Albums)
+{
+  <h4><a href='/artists/@Model.Id/albums/@element.Id'>Album Title: @element.Title</a></h4>
+}
+  @* Need to fix button routing  *@
+<form action='/artists/@Model.Id/albums/new' method="get">
+  <button class="btn btn-primary btn-lrg">Add an Album!</button>
+</form>
+<form action='/artists/@Model.Id/albums/' method="get">
+  <button class="btn btn-primary btn-lrg">View your albums!</button>
+  

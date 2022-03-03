@@ -6,24 +6,22 @@ namespace Organizer.Controllers
 {
   public class AlbumController : Controller
   {
-    [HttpGet("/albums")]
-    public ActionResult Index()
+    [HttpGet("/artists/{artistId}/albums/new")]
+    public ActionResult New(int artistId)
     {
-      List<Album> allAlbums = Album.GetAll();
-      return View(allAlbums);
+      Artist artist = Artist.Find(artistId);
+      return View(artist);
     }
 
-    [HttpGet("/albums/new")]
-    public ActionResult New()
+    [HttpGet("/artists/{artistId}/albums/{albumId}")]
+    public ActionResult Show(int artistId, int albumId)
     {
-      return View();
-    }
-
-    [HttpPost("/albums")]
-    public ActionResult Create(string title, string artist)
-    {
-      Album myAlbum = new Album(title, artist);
-      return RedirectToAction("Index");
+      Album album = Album.Find(albumId);
+      Artist artist = Artist.Find(artistId);
+      Dictionary<string, object> model = new Dictionary<string, object>();
+      model.Add("album", album);
+      model.Add("artist", artist);
+      return View(model);
     }
 
     [HttpPost("/albums/delete")]
@@ -33,11 +31,5 @@ namespace Organizer.Controllers
       return View();
     }
 
-    [HttpGet("/albums/{id}")]
-    public ActionResult Show(int id)
-    {
-      Album foundAlbum = Album.Find(id);
-      return View(foundAlbum);
-    }
   }
 }
